@@ -1,0 +1,30 @@
+.pagination-ul {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-ul li {
+  margin: 15px;
+  display: flex;
+}
+
+.pagination-ul li a {
+  width: 50px;
+  height: 50px;
+  display: block;
+  line-height: 50px;
+  text-align: center;
+}
+
+.pagination-ul li:not(.currentPage, .disabled) a:hover {
+  background-color: rgba(140, 140, 140, 0.7);
+  border-radius: 50px;
+}
+
+.pagination-ul li.currentPage {
+  background-color: rgba(0, 2, 2, 1);
+  color: white;
+  border-radius: 50px;
+}
