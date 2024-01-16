@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import DateFormat from "../../hooks/date";
-import { useDispatch } from "react-redux";
-import { addComment } from "../../actions/comments";
-
+import DateFormat from "../../hooks/date.js";
+import { useDispatch, useSelector } from "react-redux";
+import { addComment } from "../../actions/comments.js";
+import { selectUser } from "../../modules/userSlice.js";
 const CommentCreate = () => {
   const postId = +useParams().id;
+  const { id } = useSelector(selectUser);
   const [comment, setComment] = useState("");
   const ref = useRef("");
   const dispatch = useDispatch();
@@ -21,13 +22,11 @@ const CommentCreate = () => {
         text: comment,
         postId,
         createdAt: DateFormat(),
-        userId: 1,
+        userId: id,
       };
       dispatch(addComment(commentData));
       setComment("");
       ref.current.focus();
-    } else {
-      // 값을 입력하세요
     }
   };
 
@@ -52,7 +51,7 @@ const CommentCreate = () => {
               rows='3'
               className='block w-full rounded-md border-0 p-1.5 mb-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600'
             ></textarea>
-            <p className='mt-3 text-sm leading-6 text-gray-600'>댓글</p>
+            {/* <p className='mt-3 text-sm leading-6 text-gray-600'>댓글</p> */}
           </div>
         </div>
       </div>

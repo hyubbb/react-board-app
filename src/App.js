@@ -1,12 +1,12 @@
 import React from "react";
-import Container from "./app/compoments";
+import Container from "./app/compoments/index.js";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import Pagetracking from "./app/compoments/commons/Pagetracking";
-import Footer from "./app/compoments/commons/Footer";
-import Navbar from "./app/compoments/commons/Navbar";
-import PageDetail from "./app/compoments/page/PageDetail";
-import PageCreate from "./app/compoments/page/PageCreate";
-import PageEdit from "./app/compoments/page/PageEdit";
+import Pagetracking from "./app/compoments/commons/Pagetracking.js";
+import Footer from "./app/compoments/commons/Footer.js";
+import Navbar from "./app/compoments/commons/Navbar.js";
+import PageDetail from "./app/compoments/page/PageDetail.js";
+import PageCreate from "./app/compoments/page/PageCreate.js";
+import PageEdit from "./app/compoments/page/PageEdit.js";
 
 const Layout = () => {
   return (
@@ -28,6 +28,7 @@ const App = () => {
           <Route path='/board/:id' element={<PageDetail />} />
           <Route path='/create' element={<PageCreate />} />
           <Route path='/edit/:id' element={<PageEdit />} />
+          {/* <Route path='login' element={<LoginPage />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

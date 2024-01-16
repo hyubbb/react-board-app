@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchPostAndIncreaseViews,
-  fetchPostOne,
+  fetchPostView,
   fetchPosts,
   fetchPostsPage,
   addPost,
   updatePost,
   deletePost,
-} from "../actions/posts";
+} from "../actions/posts.js";
 
 import {
   addComment,
   deleteComment,
   fetchComment,
   updateComment,
-} from "../actions/comments";
+} from "../actions/comments.js";
 
 const initialState = {
   posts: [],
   postView: {},
   pageNum: 0,
+  comments: [],
   status: "idle",
   error: null,
 };
@@ -35,20 +35,16 @@ const handleRejected = (state, action) => {
 
 const handleFulfilled = (actionType) => (state, action) => {
   switch (actionType) {
-    case "fetchPosts":
-      state.status = "succeeded";
-      state.posts = action.payload;
-      break;
     case "fetchPostsPage":
-      const { response, totalCount } = action.payload;
+      const { response: data, totalCount } = action.payload;
       const newFetchPostsPage = {
-        data: response.data,
+        data: data,
         totalCount: totalCount,
       };
       state.status = "succeeded";
       state.posts = newFetchPostsPage;
       break;
-    case "fetchPostAndIncreaseViews":
+    case "fetchPostView":
       state.status = "succeeded";
       state.postView = action.payload;
       break;
@@ -62,6 +58,7 @@ const handleFulfilled = (actionType) => (state, action) => {
       break;
     case "deletePost":
       const postId = action.payload;
+      console.log(postId);
       state.status = "succeeded";
       state.posts = state.posts.data.filter((post) => post.id !== postId);
       break;
@@ -83,16 +80,16 @@ const handleFulfilled = (actionType) => (state, action) => {
       state.comments.unshift(action.payload);
       break;
     case "updateComment":
-      const { id: commentId } = action.payload;
-      const commentIndex = state.comments.findIndex(
-        (comment) => comment.id === commentId
+      const { id, text } = action.payload;
+
+      const newComment = state.comments.map((comment) =>
+        comment.id === +id ? { ...comment, text } : comment
       );
-      if (commentIndex !== -1) {
-        state.comments[commentIndex] = { ...action.payload };
-      }
+      state.comments = newComment;
       break;
     case "deleteComment":
       const deleteCommentId = action.payload;
+      state.status = "succeeded";
       state.comments = state.comments.filter(
         (comment) => comment.id !== deleteCommentId
       );
@@ -111,24 +108,15 @@ const boardSlice = createSlice({
       state.pageNum = num;
     },
   },
-  // 비동기또는 다른슬라이스에서 발생하는 액션을 처리하기 위한 부가적인 리듀서,
+
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, handlePending)
-      .addCase(fetchPosts.fulfilled, handleFulfilled("fetchPosts"))
-      .addCase(fetchPosts.rejected, handleRejected)
       .addCase(fetchPostsPage.pending, handlePending)
       .addCase(fetchPostsPage.fulfilled, handleFulfilled("fetchPostsPage"))
       .addCase(fetchPostsPage.rejected, handleRejected)
-      .addCase(fetchPostOne.pending, handlePending)
-      .addCase(fetchPostOne.fulfilled, handleFulfilled("fetchPostOne"))
-      .addCase(fetchPostOne.rejected, handleRejected)
-      .addCase(fetchPostAndIncreaseViews.pending, handlePending)
-      .addCase(
-        fetchPostAndIncreaseViews.fulfilled,
-        handleFulfilled("fetchPostAndIncreaseViews")
-      )
-      .addCase(fetchPostAndIncreaseViews.rejected, handleRejected)
+      .addCase(fetchPostView.pending, handlePending)
+      .addCase(fetchPostView.fulfilled, handleFulfilled("fetchPostView"))
+      .addCase(fetchPostView.rejected, handleRejected)
       .addCase(addPost.pending, handlePending)
       .addCase(addPost.fulfilled, handleFulfilled("addPost"))
       .addCase(addPost.rejected, handleRejected)

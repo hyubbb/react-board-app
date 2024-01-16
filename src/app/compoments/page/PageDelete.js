@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../actions/posts";
+import { deletePost } from "../../actions/posts.js";
 import { useNavigate } from "react-router-dom";
 
 const PageDelete = ({ postId }) => {

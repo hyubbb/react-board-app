@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-const CommentEdit = (props) => {
-  const { post, onSubmit, inputRef } = props;
-
+const CommentEdit = ({ comment, onSubmit, inputRef }) => {
   useEffect(() => {
     inputRef.current.focus();
   }, [inputRef]);
 
-  const [editingText, setEditingText] = useState(post.text);
+  const [editingText, setEditingText] = useState(comment.text);
 
   const handleSubmit = () => {
-    onSubmit(editingText, post.text);
+    onSubmit(editingText, comment.text, comment);
   };
 
   const onEdit = (e) => {
@@ -21,7 +19,7 @@ const CommentEdit = (props) => {
     <div>
       <div
         className='flex border-b-2 h-[50px] p-3 mt-[20px] items-center group'
-        key={post.id}
+        key={comment.id}
       >
         <input
           type='text'
@@ -46,7 +44,7 @@ const CommentEdit = (props) => {
             X
           </div>
         </div>
-        <div>{post.createdAt}</div>
+        <div className=''>{comment.createdAt.slice(0, 10)}</div>
       </div>
     </div>
   );

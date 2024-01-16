@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "../../actions/posts";
+import { addPost } from "../../actions/posts.js";
 import { Link, useNavigate } from "react-router-dom";
-import BackButton from "../commons/BackButton";
-import DateFormat from "../../hooks/date";
-import { selectUser } from "../../modules/userSlice";
+import BackButton from "../commons/BackButton.js";
+import DateFormat from "../../hooks/date.js";
+import { selectUser } from "../../modules/userSlice.js";
+import TextEditor from "../../utils/TextEditor.js";
+
 const PageCreate = () => {
   const dispatch = useDispatch(); // getState
   const navigate = useNavigate();
@@ -22,6 +24,13 @@ const PageCreate = () => {
     }));
   };
 
+  const handleBody = (body) => {
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      body: body,
+    }));
+  };
+
   const addSubmit = (e) => {
     e.preventDefault();
     if (inputs.title !== "" && inputs.body !== "") {
@@ -33,7 +42,6 @@ const PageCreate = () => {
       };
       dispatch(addPost(datas)).then(() => {
         navigate("/");
-        // history.push("/");
       });
     } else {
       alert("값을 입력하세요");
@@ -45,12 +53,12 @@ const PageCreate = () => {
         <div className='my-5 font-bold text-2xl mb-12'>
           <h1>글 작성</h1>
         </div>
-        <div className=''>
+        <div className='mb-[60px]'>
           <form
             id='form-group'
             className={"mt-10 flex flex-col justify-center"}
           >
-            <div className='col-span-full pb-12'>
+            <div className='col-span-full pb-8'>
               <label
                 htmlFor='title'
                 className='block text-lg leading-6 text-gray-900 font-bold pb-2'
@@ -58,7 +66,6 @@ const PageCreate = () => {
                 제목
               </label>
               <div className='mt-2'>
-                {/* <div className='flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600'> */}
                 <input
                   type='text'
                   name='title'
@@ -78,7 +85,7 @@ const PageCreate = () => {
                 내용
               </label>
               <div className='mt-2'>
-                <textarea
+                {/* <textarea
                   name='body'
                   id='body'
                   rows='3'
@@ -86,7 +93,8 @@ const PageCreate = () => {
                   onChange={handleChange}
                   placeholder='text'
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600'
-                ></textarea>
+                ></textarea> */}
+                <TextEditor value={inputs.body} handleBody={handleBody} />
               </div>
             </div>
           </form>

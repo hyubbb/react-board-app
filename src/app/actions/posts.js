@@ -1,22 +1,13 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  try {
-    const response = await axios.get(
-      "http://localhost:3001/posts?_sort=id&_order=desc"
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-});
-
-export const fetchPostOne = createAsyncThunk(
-  "posts/fetchPostOne",
-  async (postId) => {
+export const fetchPostsPage = createAsyncThunk(
+  "posts/fetchPostsPage",
+  async ({ page, limit }) => {
     try {
-      const response = await axios.get(`http://localhost:3001/posts/${postId}`);
+      const response = await axios.get(
+        `http://localhost:3002/posts/fetch/${page}/${limit}`
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -24,45 +15,34 @@ export const fetchPostOne = createAsyncThunk(
   }
 );
 
-export const fetchPostsPage = createAsyncThunk(
-  "posts/fetchPostsPage",
-  async (page, limitNum) => {
+export const fetchPostView = createAsyncThunk(
+  "posts/fetchPostView",
+  async (postId) => {
+    let resPost;
     try {
       const response = await axios.get(
-        `http://localhost:3001/posts?_sort=id&_order=desc&_page=${page}&_limit=${limitNum}`
+        `http://localhost:3002/posts/fetch/${postId}`
       );
-      const totalCount = response.headers["x-total-count"];
-      return { response, totalCount };
-    } catch (error) {
-      throw error;
-    }
-  }
-);
-
-export const fetchPostAndIncreaseViews = createAsyncThunk(
-  "posts/fetchPostAndIncreaseViews",
-  async (pageId) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/posts/${pageId}`);
       let post = response.data;
       if (post) {
-        const resView = await axios.patch(
-          `http://localhost:3001/posts/${pageId}`,
-          { views: (post.views || 0) + 1 }
+        resPost = await axios.patch(
+          `http://localhost:3002/posts/${postId}/views`
         );
-        return resView.data;
       }
-      return post;
+      return resPost.data;
     } catch (error) {
       throw error;
     }
   }
 );
 
-export const addPost = createAsyncThunk("posts/addPost", async (post) => {
+export const addPost = createAsyncThunk("post/addPost", async (post) => {
   try {
     // 서버로 게시글 추가 요청을 보내고 새로운 게시글 데이터를 반환하는 로직
-    const response = await axios.post("http://localhost:3001/posts", post);
+    const response = await axios.post(
+      "http://localhost:3002/post/create",
+      post
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -72,8 +52,9 @@ export const addPost = createAsyncThunk("posts/addPost", async (post) => {
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (postId) => {
+    console.log(postId);
     try {
-      await axios.delete(`http://localhost:3001/posts/${postId}`);
+      await axios.delete(`http://localhost:3002/post/delete/${postId}`);
       return postId;
     } catch (error) {
       throw error;
@@ -85,8 +66,8 @@ export const updatePost = createAsyncThunk(
   "posts/updatePost",
   async (postData) => {
     try {
-      const { postId } = postData;
-      await axios.put(`http://localhost:3001/posts/${postId}`, postData);
+      const { id } = postData;
+      await axios.put(`http://localhost:3001/posts/${id}`, postData);
       return postData;
     } catch (error) {
       throw error;

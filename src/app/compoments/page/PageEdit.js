@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { updatePost } from "../../actions/posts";
-import { selectedPost } from "../../modules/boardSlice";
-import BackButton from "../commons/BackButton";
+import { useNavigate } from "react-router-dom";
+import { updatePost } from "../../actions/posts.js";
+import { selectedPost } from "../../modules/boardSlice.js";
+import BackButton from "../commons/BackButton.js";
+import TextEditor from "../../utils/TextEditor.js";
 
 const PageEdit = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // getState
-  const postId = +useParams().id;
+  const dispatch = useDispatch();
   const viewPost = useSelector(selectedPost, shallowEqual) || "";
   const [inputs, setInputs] = useState({
     title: "",
@@ -17,12 +17,21 @@ const PageEdit = () => {
 
   useEffect(() => {
     if (viewPost) {
-      setInputs({ ...viewPost, postId });
+      setInputs(viewPost);
     }
-  }, [viewPost, postId]);
+  }, [viewPost]);
 
   const handleChange = (e) => {
-    const { value, name } = e.target;
+    let name, value;
+
+    if (e.target) {
+      // DOM 이벤트에서 발생한 경우
+      ({ value, name } = e.target);
+    } else {
+      name = "body";
+      value = e;
+    }
+
     setInputs((prevInputs) => ({
       ...prevInputs,
       [name]: value,
@@ -31,7 +40,6 @@ const PageEdit = () => {
 
   const addSubmit = (e) => {
     e.preventDefault();
-
     if (inputs.title !== "" && inputs.body !== "") {
       dispatch(updatePost(inputs)).then(() => {
         navigate(-1);
@@ -96,7 +104,7 @@ const PageEdit = () => {
               내용
             </label>
             <div className='mt-2'>
-              <textarea
+              {/* <textarea
                 name='body'
                 id='body'
                 rows='3'
@@ -104,7 +112,8 @@ const PageEdit = () => {
                 onChange={handleChange}
                 placeholder='text'
                 className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600'
-              ></textarea>
+              ></textarea> */}
+              <TextEditor value={inputs.body} handleBody={handleChange} />
             </div>
           </div>
         </form>

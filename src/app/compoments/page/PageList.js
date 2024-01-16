@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchPostsPage } from "../../actions/posts";
-import { getPageNum } from "../../modules/boardSlice";
+import { fetchPostsPage } from "../../actions/posts.js";
+import { getPageNum } from "../../modules/boardSlice.js";
 
 const PageList = ({ postData, itemsPerPage }) => {
   const { data: posts, totalCount: totalCnt } = postData;
   const dispatch = useDispatch(); // getState
   const pageNum = useSelector(getPageNum);
   useEffect(() => {
-    dispatch(fetchPostsPage(pageNum + 1, itemsPerPage));
+    dispatch(fetchPostsPage({ page: pageNum + 1, limit: itemsPerPage }));
+    // dispatch(fetchPostsPage(pageNum + 1, 10));
   }, [dispatch, pageNum, itemsPerPage]);
 
   if (!posts?.length) {
@@ -33,7 +34,6 @@ const PageList = ({ postData, itemsPerPage }) => {
             {posts.map((data, i) => {
               return (
                 <div className='flex border-b-2 items-center' key={data.id}>
-                  {/* <div className='basis-[100px] text-center'>{totalCnt - i}</div> */}
                   <div className='basis-[100px] text-center '>
                     {totalCnt - pageNum * 10 - i}
                   </div>

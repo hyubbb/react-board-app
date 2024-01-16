@@ -1,29 +1,31 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchLogin } from "../actions/logins";
-
-const initialState = {
-  user: {},
-  status: "idle",
-  error: null,
-};
+const initialState = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : { email: "", id: "" };
 
 const userSlice = createSlice({
   initialState,
-  name: "users",
+  name: "user",
   reducers: {
-    create: (state, action) => {
+    setUser: (state, action) => {
       console.log(action.payload);
+      state.email = action.payload.email;
+      state.name = action.payload.displayName;
+      state.id = action.payload.uid;
+      state.photo = action.payload.photoURL;
     },
-  },
-  // 비동기또는 다른슬라이스에서 발생하는 액션을 처리하기 위한 부가적인 리듀서,
-  extraReducers: (builder) => {
-    builder.addCase(fetchLogin.fulfilled, (state, action) => {
-      state.user = action.payload;
-    });
+    removeUser: (state) => {
+      state.email = "";
+      state.id = "";
+      state.photo = "";
+      state.name = "";
+
+      localStorage.removeItem("user");
+    },
   },
 });
 
 export default userSlice.reducer;
-
-export const selectUser = (state) => state.users.user;
+export const { setUser, removeUser } = userSlice.actions;
+export const selectUser = (state) => state.users;

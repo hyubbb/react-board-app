@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { create as boardCreate } from "../modules/boardSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchLogin = createAsyncThunk(

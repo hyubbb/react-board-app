@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import boardReducer from "./boardSlice";
-import storage from "redux-persist/lib/storage";
+import boardReducer from "./boardSlice.js";
+import storage from "redux-persist/lib/storage/index.js";
 import thunk from "redux-thunk";
-import persistReducer from "redux-persist/es/persistReducer";
-import persistStore from "redux-persist/es/persistStore";
-import userReducer from "./userSlice";
+import persistReducer from "redux-persist/es/persistReducer.js";
+import persistStore from "redux-persist/es/persistStore.js";
+import userReducer from "./userSlice.js";
 
 const userPersistConfig = {
   key: "users",

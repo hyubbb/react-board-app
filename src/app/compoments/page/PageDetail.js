@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { selectedPost } from "../../modules/boardSlice";
-import BackButton from "../commons/BackButton";
-import PageDelete from "../page/PageDelete";
-import CommentList from "../comment/CommentList";
-import { fetchPostAndIncreaseViews } from "../../actions/posts";
-import { selectUser } from "../../modules/userSlice";
+import { selectedPost } from "../../modules/boardSlice.js";
+import BackButton from "../commons/BackButton.js";
+import PageDelete from "../page/PageDelete.js";
+import CommentList from "../comment/CommentList.js";
+import { fetchPostView } from "../../actions/posts.js";
+import { selectUser } from "../../modules/userSlice.js";
 
 const PageDetail = () => {
   const postId = +useParams().id;
@@ -14,18 +14,15 @@ const PageDetail = () => {
   const dispatch = useDispatch();
   const viewPost = useSelector(selectedPost, shallowEqual) || "";
   const users = useSelector(selectUser);
-
   useEffect(() => {
-    dispatch(fetchPostAndIncreaseViews(postId));
+    dispatch(fetchPostView(postId));
   }, [dispatch, postId]);
 
-  console.log(viewPost);
   function isNumeric(str) {
     return /^\d+$/.test(str);
   }
 
   if (!isNumeric(postId)) {
-    // 숫자가 아닌 경우 메인 화면으로 이동
     navigate(`/`);
     return null;
   }
@@ -61,7 +58,6 @@ const PageDetail = () => {
               <PageDelete postId={postId} />
             </>
           ) : (
-            // ""
             <>
               <Link
                 to={`/edit/${postId}`}
