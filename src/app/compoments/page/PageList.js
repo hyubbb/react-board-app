@@ -14,6 +14,7 @@ const PageList = ({ postData, itemsPerPage }) => {
   const dispatch = useDispatch(); // getState
   const pageNum = useSelector(getPageNum);
   const { isAuth } = useAuth();
+  console.log(process.env.LOCALHOST);
   useEffect(() => {
     dispatch(fetchPostsPage({ page: pageNum + 1, limit: itemsPerPage }));
     dispatch(postViewRemove());
@@ -24,7 +25,7 @@ const PageList = ({ postData, itemsPerPage }) => {
 
   return (
     <div className='flex items-center flex-col'>
-      <div className=' max-w-[1200px] min-w-[500px] w-full mt-8'>
+      <div className=' max-w-[1200px]  w-full mt-8'>
         <div className='my-5 font-bold text-2xl px-10'>
           <h1>게시판</h1>
         </div>

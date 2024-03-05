@@ -37,7 +37,7 @@ const PageDetail = () => {
 
   return (
     <div className='flex justify-center items-center flex-col mt-16'>
-      <div className=' max-w-[1200px] min-w-[500px] w-full px-10 mb-24'>
+      <div className=' max-w-[1200px] w-full px-10 mb-24'>
         <div className='text-lg mb-10 font-black border-b-2 flex pb-6'>
           {viewPost.title}
           <div className='ml-auto'>{viewPost?.views}</div>

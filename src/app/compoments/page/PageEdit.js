@@ -54,7 +54,7 @@ const PageEdit = () => {
   }
   return (
     <div className='flex justify-center'>
-      <div className=' max-w-[800px] min-w-[500px] w-full mt-8'>
+      <div className=' max-w-[800px]  w-full mt-8'>
         <div className='my-5 font-bold text-2xl mb-12'>
           <h1>글 수정</h1>
         </div>

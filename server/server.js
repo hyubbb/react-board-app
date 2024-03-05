@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -6,12 +7,13 @@ const connection = require("./mysql");
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-// const HOST = "localhost";
-const HOST = "18.116.200.216";
+const LOCALHOST = "localhost";
+// const HOST = "18.116.200.216";
 // JSON 요청 본문을 파싱하기 위한 미들웨어
+
 app.use(express.json({ limit: "5mb" }));
 app.use(compression());
-app.use(cors({ origin: `http://${HOST}:3000` }));
+app.use(cors({ origin: `http://${LOCALHOST}:3000` }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "5mb" }));
 
 /**
@@ -113,7 +115,7 @@ app.patch("/posts/:postId", (req, res) => {
   const { title, body } = req.body; // 요청 본문에서 새로운 title과 body 추출
 
   // 제목과 본문을 업데이트하는 쿼리
-  const query = "UPDATE posts SET title = ?, body = ? WHERE id = ?";
+  const query = "UPDATE board.posts SET title = ?, body = ? WHERE id = ?";
 
   connection.query(query, [title, body, postId], (error, results) => {
     if (error) {
@@ -138,7 +140,7 @@ app.delete("/post/delete/:postId", (req, res) => {
   const postId = req.params.postId; // URL 파라미터에서 postId 추출
 
   // 먼저 관련 댓글 삭제
-  const deleteCommentsQuery = "DELETE FROM comments WHERE postId = ?";
+  const deleteCommentsQuery = "DELETE FROM board.comments WHERE postId = ?";
 
   connection.query(deleteCommentsQuery, [postId], (error, results) => {
     if (error) {
@@ -173,7 +175,7 @@ app.get("/comments/fetch/:postId", (req, res) => {
   const postId = parseInt(req.params.postId, 10);
 
   const query =
-    "SELECT * FROM comments WHERE postId = ? ORDER BY createdAt DESC";
+    "SELECT * FROM board.comments WHERE postId = ? ORDER BY createdAt DESC";
 
   connection.query(query, [postId], (error, results) => {
     if (error) {
@@ -219,7 +221,7 @@ app.patch("/comments/update/:commentId", (req, res) => {
 app.delete("/comments/delete/:commentId", (req, res) => {
   const commentId = parseInt(req.params.commentId, 10);
 
-  const query = "DELETE FROM comments WHERE id = ?";
+  const query = "DELETE FROM board.comments WHERE id = ?";
 
   connection.query(query, [commentId], (error, results) => {
     if (error) {
