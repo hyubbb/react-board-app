@@ -6,7 +6,6 @@ const LOCALHOST = "18.116.200.216";
 export const fetchComment = createAsyncThunk(
   "comments/fetchComment",
   async (postId) => {
-    console.log("fetch");
     try {
       const response = await axios.get(
         `http://${LOCALHOST}:3002/comments/fetch/${postId}`
