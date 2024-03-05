@@ -14,7 +14,6 @@ const PageList = ({ postData, itemsPerPage }) => {
   const dispatch = useDispatch(); // getState
   const pageNum = useSelector(getPageNum);
   const { isAuth } = useAuth();
-  console.log(process.env.LOCALHOST);
   useEffect(() => {
     dispatch(fetchPostsPage({ page: pageNum + 1, limit: itemsPerPage }));
     dispatch(postViewRemove());
