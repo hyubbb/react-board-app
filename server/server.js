@@ -7,8 +7,8 @@ const connection = require("./mysql");
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const LOCALHOST = "localhost";
-// const HOST = "18.116.200.216";
+// const LOCALHOST = "localhost";
+const HOST = "18.116.200.216";
 // JSON 요청 본문을 파싱하기 위한 미들웨어
 
 app.use(express.json({ limit: "5mb" }));

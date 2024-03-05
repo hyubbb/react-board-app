@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const LOCALHOST = "localhost";
+// const LOCALHOST = "localhost";
+const LOCALHOST = "18.116.200.216";
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
