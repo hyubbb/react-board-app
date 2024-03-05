@@ -9,11 +9,11 @@ const userSlice = createSlice({
   name: "user",
   reducers: {
     setUser: (state, action) => {
-      console.log(action.payload);
       state.email = action.payload.email;
-      state.name = action.payload.displayName;
-      state.id = action.payload.uid;
-      state.photo = action.payload.photoURL;
+      state.name = action.payload.email;
+      state.id = action.payload.email;
+      state.photo = action.payload.photoURL ? action.payload.photoURL : null;
+      // state.photo = action.payload.photoURL;
     },
     removeUser: (state) => {
       state.email = "";

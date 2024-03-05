@@ -17,4 +17,11 @@ const DateFormat = () => {
   return createdAt;
 };
 
+export const DateNow = () => {
+  const offset = 9; // UTC+9
+  let now = new Date();
+  now.setHours(now.getHours() + offset);
+  return now.toISOString().slice(0, 19).replace("T", " ");
+};
+
 export default DateFormat;

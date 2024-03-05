@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
+    console.log(page, limit);
     try {
       const response = await axios.get(
         `http://localhost:3002/posts/fetch/${page}/${limit}`
@@ -18,17 +19,10 @@ export const fetchPostsPage = createAsyncThunk(
 export const fetchPostView = createAsyncThunk(
   "posts/fetchPostView",
   async (postId) => {
-    let resPost;
     try {
-      const response = await axios.get(
-        `http://localhost:3002/posts/fetch/${postId}`
+      const resPost = await axios.get(
+        `http://localhost:3002/posts/${postId}/views`
       );
-      let post = response.data;
-      if (post) {
-        resPost = await axios.patch(
-          `http://localhost:3002/posts/${postId}/views`
-        );
-      }
       return resPost.data;
     } catch (error) {
       throw error;
@@ -43,6 +37,7 @@ export const addPost = createAsyncThunk("post/addPost", async (post) => {
       "http://localhost:3002/post/create",
       post
     );
+    console.log(response);
     return response.data;
   } catch (error) {
     throw error;
@@ -67,10 +62,41 @@ export const updatePost = createAsyncThunk(
   async (postData) => {
     try {
       const { id } = postData;
-      await axios.put(`http://localhost:3001/posts/${id}`, postData);
+      await axios.patch(`http://localhost:3002/posts/${id}`, postData);
       return postData;
     } catch (error) {
       throw error;
     }
   }
 );
+
+export const imageToServer = {
+  create: async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      const response = await axios.post(
+        "http://localhost:3100/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const { data } = response;
+      return data.imageUrl;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  },
+  delete: async (imageUrl: string) => {
+    try {
+      axios.post(`http://localhost:3100/deleteImage`, {
+        imageUrl,
+      });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  },
+};

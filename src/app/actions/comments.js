@@ -43,7 +43,6 @@ export const updateComment = createAsyncThunk(
           commentText,
         }
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       throw error;

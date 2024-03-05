@@ -28,7 +28,7 @@ const CommentItem = ({ onDelete, comment, startEdit }) => {
         ) : (
           ""
         )}
-        <div>{comment?.createdAt?.slice(0, 10)}</div>
+        <div>{comment.createdAt.slice(0, 10)}</div>
       </div>
     </>
   );

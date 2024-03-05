@@ -2,26 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setPageNum } from "../../modules/boardSlice.js";
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import app from "../../../firebase.js";
 import { useAuth } from "../../hooks/useAuth.js";
-import { FiLogIn, FiLogOut } from "react-icons/fi/index.esm.js";
-import { setUser } from "../../modules/userSlice.js";
 import storage from "../../utils/storage.js";
 import { persistor } from "../../modules/store.js";
-import { useNavigate } from "react-router-dom";
+
 import "./Navbar.css";
+import uPhoto from "../../../assets/photo.png";
 
 const Navbar = () => {
   const dispatch = useDispatch(); // getState
   const auth = getAuth(app);
   const { isAuth, photo } = useAuth();
-  const navigate = useNavigate();
+
+  const isPhoto = photo ? photo : uPhoto;
+
   const handleLogOut = () => {
     signOut(auth)
       .then(() => {
@@ -34,25 +30,9 @@ const Navbar = () => {
       });
   };
 
-  const provider = new GoogleAuthProvider();
-
-  const handleAuth = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        dispatch(setUser(result.user));
-        // storage.set("userData", result.user);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
-  };
-
   return (
     <>
-      <nav className=' bg-slate-300 px-5 py-5 flex justify-between items-center'>
+      <nav className=' bg-slate-300 px-5 flex justify-between items-center'>
         <div>
           <Link
             to='/'
@@ -73,28 +53,30 @@ const Navbar = () => {
         </div>
 
         {isAuth ? (
-          <div className='relative hover:cursor-pointer group '>
-            <img
-              src={photo}
-              alt=''
-              className='w-[80px] h-[80px] flex justify-center items-center rounded-full '
-            />
-            {/* <FiLogOut className='none' title='logout' /> */}
-            <div className='absolute w-[100px] hidden bottom-[-20px] right-[0px] group-hover:block border-2 bg-black text-white text-center'>
-              <span onClick={handleLogOut}>Sign Out</span>
+          <>
+            <div className='flex relative group'>
+              <img
+                src={isPhoto}
+                alt='userPhoto'
+                className='w-[80px] h-[80px] rounded-full group'
+              />
+              {/* <FiLogOut className='none' title='logout' /> */}
+              {/* <div className='absolute w-[100px] hidden bottom-[-20px] right-[0px] group-hover:block border-2 bg-black text-white text-center'> */}
+
+              <div
+                onClick={handleLogOut}
+                className='w-[80px] h-[80px] hidden rounded-full absolute bg-slate-500 group-hover:flex justify-center items-center cursor-pointer'
+              >
+                <span>Sign Out</span>
+              </div>
             </div>
-          </div>
+          </>
         ) : (
-          <div
-            onClick={handleAuth}
-            className=' w-[100px] h-[100px] items-center justify-center flex'
-          >
-            <div>
-              {/* login */}
-              {/* <FiLogIn title='login' /> */}
-              Login
+          <Link to={"/login"}>
+            <div className=' w-[auto] h-[100px] items-center justify-center flex cursor-pointer'>
+              <div className='mx-10'>Login</div>
             </div>
-          </div>
+          </Link>
         )}
       </nav>
     </>

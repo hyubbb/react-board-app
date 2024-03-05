@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../actions/posts.js";
 import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../commons/BackButton.js";
-import DateFormat from "../../hooks/date.js";
+import DateFormat, { DateNow } from "../../hooks/date.js";
 import { selectUser } from "../../modules/userSlice.js";
 import TextEditor from "../../utils/TextEditor.js";
 
@@ -35,7 +35,7 @@ const PageCreate = () => {
     e.preventDefault();
     if (inputs.title !== "" && inputs.body !== "") {
       const datas = {
-        createdAt: DateFormat(),
+        createdAt: DateNow(),
         views: 0,
         userId: users.id,
         ...inputs,
@@ -95,6 +95,7 @@ const PageCreate = () => {
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600'
                 ></textarea> */}
                 <TextEditor value={inputs.body} handleBody={handleBody} />
+                <div id='preview'></div>
               </div>
             </div>
           </form>

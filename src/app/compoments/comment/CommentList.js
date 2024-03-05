@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { selectComments } from "../../modules/boardSlice.js";
 import {
@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import CommentCreate from "./CommentCreate.js";
 import CommentItem from "./CommentItem.js";
 import CommentEdit from "./CommentEdit.js";
+import { useAuth } from "../../hooks/useAuth.js";
 
 const CommentList = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const CommentList = () => {
   const postComments = useSelector(selectComments, shallowEqual) || [];
   const [editingId, setEditingId] = useState(0);
   const editRef = useRef();
+  const { isAuth } = useAuth();
+
   useEffect(() => {
     dispatch(fetchComment(postId));
   }, [dispatch, postId]);
@@ -30,6 +33,7 @@ const CommentList = () => {
   };
 
   const onSubmit = (editingText, prevText, post) => {
+    console.log(editingText);
     if (editingText !== prevText) {
       dispatch(updateComment({ editingId, editingText }));
     }
@@ -41,12 +45,14 @@ const CommentList = () => {
       <div className='mt-12'>
         {postComments.map((post) => {
           return editingId === post.id ? (
-            <CommentEdit
-              comment={post}
-              onSubmit={onSubmit}
-              inputRef={editRef}
-              key={post.id}
-            />
+            isAuth && (
+              <CommentEdit
+                comment={post}
+                onSubmit={onSubmit}
+                inputRef={editRef}
+                key={post.id}
+              />
+            )
           ) : (
             <CommentItem
               onDelete={onDelete}

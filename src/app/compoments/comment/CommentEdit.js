@@ -4,6 +4,7 @@ const CommentEdit = ({ comment, onSubmit, inputRef }) => {
   useEffect(() => {
     inputRef.current.focus();
   }, [inputRef]);
+  console.log(comment);
 
   const [editingText, setEditingText] = useState(comment.text);
 
@@ -44,7 +45,7 @@ const CommentEdit = ({ comment, onSubmit, inputRef }) => {
             X
           </div>
         </div>
-        <div className=''>{comment.createdAt.slice(0, 10)}</div>
+        <div className=''>{comment?.createdAt?.slice(0, 10)}</div>
       </div>
     </div>
   );

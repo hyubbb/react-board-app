@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import DateFormat from "../../hooks/date.js";
+import DateFormat, { DateNow } from "../../hooks/date.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "../../actions/comments.js";
 import { selectUser } from "../../modules/userSlice.js";
@@ -16,12 +16,11 @@ const CommentCreate = () => {
 
   const addSubmit = (e) => {
     e.preventDefault();
-
     if (comment !== "") {
       const commentData = {
         text: comment,
         postId,
-        createdAt: DateFormat(),
+        createdAt: DateNow(),
         userId: id,
       };
       dispatch(addComment(commentData));

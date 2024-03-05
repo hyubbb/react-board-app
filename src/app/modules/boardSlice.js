@@ -16,7 +16,7 @@ import {
 } from "../actions/comments.js";
 
 const initialState = {
-  posts: [],
+  posts: { data: [], totalCount: 0 },
   postView: {},
   pageNum: 0,
   comments: [],
@@ -36,7 +36,8 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (actionType) => (state, action) => {
   switch (actionType) {
     case "fetchPostsPage":
-      const { response: data, totalCount } = action.payload;
+      const { posts: data, totalCount } = action.payload;
+      // const { response: data, totalCount } = action.payload;
       const newFetchPostsPage = {
         data: data,
         totalCount: totalCount,
@@ -48,13 +49,10 @@ const handleFulfilled = (actionType) => (state, action) => {
       state.status = "succeeded";
       state.postView = action.payload;
       break;
+
     case "addPost":
-      const newAddPost = {
-        ...action.payload,
-        views: 0,
-      };
       state.status = "succeeded";
-      state.posts.data.push(newAddPost);
+      state.posts.data.push(action.payload);
       break;
     case "deletePost":
       const postId = action.payload;
@@ -77,11 +75,11 @@ const handleFulfilled = (actionType) => (state, action) => {
       break;
     case "addComment":
       state.status = "succeeded";
+      console.log(action.payload);
       state.comments.unshift(action.payload);
       break;
     case "updateComment":
       const { id, text } = action.payload;
-
       const newComment = state.comments.map((comment) =>
         comment.id === +id ? { ...comment, text } : comment
       );
@@ -106,6 +104,12 @@ const boardSlice = createSlice({
     setPageNum: (state, action) => {
       const num = action.payload ? action.payload : 0;
       state.pageNum = num;
+    },
+    postViewRemove: (state, _) => {
+      state.postView = [];
+    },
+    commentRemove: (state, _) => {
+      state.comments = [];
     },
   },
 
@@ -142,7 +146,7 @@ const boardSlice = createSlice({
 });
 
 export default boardSlice.reducer;
-export const { setPageNum } = boardSlice.actions;
+export const { setPageNum, postViewRemove, commentRemove } = boardSlice.actions;
 export const getPageNum = (state) => state.boards.pageNum;
 export const selectPosts = (state) => state.boards.posts;
 export const selectedPost = (state) => state.boards.postView;

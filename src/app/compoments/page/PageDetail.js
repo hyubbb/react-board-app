@@ -6,14 +6,15 @@ import BackButton from "../commons/BackButton.js";
 import PageDelete from "../page/PageDelete.js";
 import CommentList from "../comment/CommentList.js";
 import { fetchPostView } from "../../actions/posts.js";
-import { selectUser } from "../../modules/userSlice.js";
+import { useAuth } from "../../hooks/useAuth.js";
+import Loading from "../../utils/Loading.js";
 
 const PageDetail = () => {
   const postId = +useParams().id;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const viewPost = useSelector(selectedPost, shallowEqual) || "";
-  const users = useSelector(selectUser);
+  const viewPost = useSelector(selectedPost) || "";
+  const { isAuth, id } = useAuth();
   useEffect(() => {
     dispatch(fetchPostView(postId));
   }, [dispatch, postId]);
@@ -21,10 +22,18 @@ const PageDetail = () => {
   function isNumeric(str) {
     return /^\d+$/.test(str);
   }
-
   if (!isNumeric(postId)) {
     navigate(`/`);
     return null;
+  }
+  console.log(viewPost);
+
+  if (viewPost?.length === 0) {
+    return (
+      <div className='h-[400px] flex justify-center items-center'>
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -46,18 +55,7 @@ const PageDetail = () => {
         <div className='flex justify-center mt-7'>
           <BackButton />
 
-          {users.id !== undefined && viewPost.userId === users.id ? (
-            <>
-              <Link
-                to={`/edit/${postId}`}
-                state={{ post: viewPost, postKey: postId }}
-                className='border-2 border-solid border-black rounded w-24 mr-5 text-center'
-              >
-                edit
-              </Link>
-              <PageDelete postId={postId} />
-            </>
-          ) : (
+          {isAuth && viewPost.userId === id && (
             <>
               <Link
                 to={`/edit/${postId}`}
