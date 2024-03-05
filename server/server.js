@@ -6,11 +6,11 @@ const connection = require("./mysql");
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const fs = [];
+const HOST = "172.31.33.209";
 // JSON 요청 본문을 파싱하기 위한 미들웨어
 app.use(express.json({ limit: "5mb" }));
 app.use(compression());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: `http://${HOST}:3000` }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "5mb" }));
 
 /**
