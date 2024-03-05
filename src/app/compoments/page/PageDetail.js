@@ -26,7 +26,6 @@ const PageDetail = () => {
     navigate(`/`);
     return null;
   }
-  console.log(viewPost);
 
   if (viewPost?.length === 0) {
     return (
