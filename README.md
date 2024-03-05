@@ -6,7 +6,7 @@
 
 계속해서 리팩토링 예정 디자인도 수정
 
-텍스트에디터를 quill로 변경해야함.
+~텍스트에디터를 quill로 변경해야함.~
 
 
 json-server --watch db.json --port 3001
