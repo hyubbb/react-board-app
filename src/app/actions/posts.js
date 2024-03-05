@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const HOST = "172.31.33.209";
+const HOST = "18.116.200.216";
+// const HOST = "172.31.33.209";
 
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
