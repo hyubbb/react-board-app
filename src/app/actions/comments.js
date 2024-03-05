@@ -1,13 +1,15 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+// const LOCALHOST = "localhost";
+const LOCALHOST = "18.116.200.216";
 export const fetchComment = createAsyncThunk(
   "comments/fetchComment",
   async (postId) => {
     console.log("fetch");
     try {
       const response = await axios.get(
-        `http://localhost:3002/comments/fetch/${postId}`
+        `http://${LOCALHOST}:3002/comments/fetch/${postId}`
       );
       return response.data;
     } catch (error) {
@@ -21,7 +23,7 @@ export const addComment = createAsyncThunk(
   async (postData) => {
     try {
       const response = await axios.post(
-        `http://localhost:3002/comments/create`,
+        `http://${LOCALHOST}:3002/comments/create`,
         postData
       );
       console.log(response.data);
@@ -38,7 +40,7 @@ export const updateComment = createAsyncThunk(
     try {
       const { editingId: commentId, editingText: commentText } = commentData;
       const response = await axios.patch(
-        `http://localhost:3002/comments/update/${commentId}`,
+        `http://${LOCALHOST}:3002/comments/update/${commentId}`,
         {
           commentText,
         }
@@ -54,7 +56,9 @@ export const deleteComment = createAsyncThunk(
   "comments/deleteComment",
   async (commentId) => {
     try {
-      await axios.delete(`http://localhost:3002/comments/delete/${commentId}`);
+      await axios.delete(
+        `http://${LOCALHOST}:3002/comments/delete/${commentId}`
+      );
 
       return commentId;
     } catch (error) {
