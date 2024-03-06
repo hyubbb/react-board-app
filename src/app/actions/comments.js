@@ -1,8 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const LOCALHOST = "localhost";
-// const LOCALHOST = "18.116.200.216";
+const LOCALHOST = process.env.REACT_APP_LOCALHOST;
 export const fetchComment = createAsyncThunk(
   "comments/fetchComment",
   async (postId) => {

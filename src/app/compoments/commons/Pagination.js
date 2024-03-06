@@ -1,21 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchPostsPage } from "../../actions/posts.js";
-// import { getPageNum, setPageNum } from "../../modules/boardSlice.js";
 import "./pagination.css";
-const Pagination = ({ itemsPerPage = 10, totalCount, setPageNum, pageNum }) => {
-  // Here we use item offsets; we could also use page offsets
-  // following the API or data you're working with.
+const Pagination = ({ itemsPerPage = 10, totalCount, pageNum }) => {
   const dispatch = useDispatch(); // getState
   // const pageNum = useSelector(getPageNum);
-  // console.log(pageNum);
   const pageCount = Math.ceil(totalCount / itemsPerPage);
-  const handlePageClick = (event) => {
-    dispatch(fetchPostsPage({ page: event.selected + 1, limit: itemsPerPage }));
-    // dispatch(setPageNum(event.selected));
-    // setPageNum(event.selected);
-  };
+  const handlePageClick = useCallback(
+    (event) => {
+      dispatch(
+        fetchPostsPage({ page: event.selected + 1, limit: itemsPerPage })
+      );
+    },
+    [dispatch, itemsPerPage]
+  );
   return (
     <>
       <ReactPaginate

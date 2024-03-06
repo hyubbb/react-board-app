@@ -1,8 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// const LOCALHOST = "localhost";
-const LOCALHOST = "18.116.200.216";
+const LOCALHOST = process.env.REACT_APP_LOCALHOST;
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
@@ -10,6 +9,7 @@ export const fetchPostsPage = createAsyncThunk(
       const response = await axios.get(
         `http://${LOCALHOST}:3002/posts/fetch/${page}/${limit}`
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       throw error;
@@ -21,10 +21,10 @@ export const fetchPostView = createAsyncThunk(
   "posts/fetchPostView",
   async (postId) => {
     try {
-      const resPost = await axios.get(
+      const response = await axios.get(
         `http://${LOCALHOST}:3002/posts/${postId}/views`
       );
-      return resPost.data;
+      return response.data;
     } catch (error) {
       throw error;
     }
@@ -38,7 +38,6 @@ export const addPost = createAsyncThunk("post/addPost", async (post) => {
       `http://${LOCALHOST}:3002/post/create`,
       post
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     throw error;
@@ -48,7 +47,6 @@ export const addPost = createAsyncThunk("post/addPost", async (post) => {
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (postId) => {
-    console.log(postId);
     try {
       await axios.delete(`http://${LOCALHOST}:3002/post/delete/${postId}`);
       return postId;

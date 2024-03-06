@@ -16,7 +16,7 @@ import {
 } from "../actions/comments.js";
 
 const initialState = {
-  posts: { data: [], totalCount: 0 },
+  posts: { data: [], totalCount: 0, pageNum: 1 },
   postView: {},
   pageNum: 0,
   comments: [],
@@ -36,20 +36,20 @@ const handleRejected = (state, action) => {
 const handleFulfilled = (actionType) => (state, action) => {
   switch (actionType) {
     case "fetchPostsPage":
-      const { posts: data, totalCount } = action.payload;
-      // const { response: data, totalCount } = action.payload;
+      const { posts: data, totalCount, currentPage } = action.payload;
       const newFetchPostsPage = {
         data: data,
         totalCount: totalCount,
+        pageNum: currentPage - 1,
       };
       state.status = "succeeded";
       state.posts = newFetchPostsPage;
+      // state.pageNum = currentPage - 1;
       break;
     case "fetchPostView":
       state.status = "succeeded";
       state.postView = action.payload;
       break;
-
     case "addPost":
       state.status = "succeeded";
       state.posts.data.push(action.payload);
@@ -75,7 +75,6 @@ const handleFulfilled = (actionType) => (state, action) => {
       break;
     case "addComment":
       state.status = "succeeded";
-      console.log(action.payload);
       state.comments.unshift(action.payload);
       break;
     case "updateComment":

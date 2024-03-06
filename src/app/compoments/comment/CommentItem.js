@@ -1,7 +1,9 @@
 import React from "react";
 import { selectUser } from "../../modules/userSlice.js";
 import { useSelector } from "react-redux";
+import { useAuth } from "../../hooks/useAuth.js";
 const CommentItem = ({ onDelete, comment, startEdit }) => {
+  const { admin } = useAuth();
   const users = useSelector(selectUser);
   return (
     <>
@@ -10,7 +12,7 @@ const CommentItem = ({ onDelete, comment, startEdit }) => {
         key={comment.id}
       >
         <div className='flex-1'>{comment.text}</div>
-        {comment.userId === users.id ? (
+        {comment.userId === users.id || admin ? (
           <div className='flex basis-[200px] justify-end mr-3'>
             <div
               className='hidden border-2 text-center rounded-full basis-[50px] group-hover:block'
