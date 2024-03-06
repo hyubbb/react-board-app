@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// const LOCALHOST = "localhost";
-const LOCALHOST = "18.116.200.216";
+const LOCALHOST = "localhost";
+// const LOCALHOST = "18.116.200.216";
 export const fetchComment = createAsyncThunk(
   "comments/fetchComment",
   async (postId) => {
@@ -10,6 +10,7 @@ export const fetchComment = createAsyncThunk(
       const response = await axios.get(
         `http://${LOCALHOST}:3002/comments/fetch/${postId}`
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;

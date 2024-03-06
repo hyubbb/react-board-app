@@ -6,7 +6,6 @@ const LOCALHOST = "18.116.200.216";
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
-    console.log(page, limit);
     try {
       const response = await axios.get(
         `http://${LOCALHOST}:3002/posts/fetch/${page}/${limit}`

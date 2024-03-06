@@ -9,10 +9,11 @@ import {
 } from "../../modules/boardSlice.js";
 import { useAuth } from "../../hooks/useAuth.js";
 
-const PageList = ({ postData, itemsPerPage }) => {
+const PageList = ({ postData, itemsPerPage, pageNum }) => {
   const { data: posts, totalCount: totalCnt } = postData;
   const dispatch = useDispatch(); // getState
-  const pageNum = useSelector(getPageNum);
+  // const pageNum = useSelector(getPageNum);
+  pageNum = 0;
   const { isAuth } = useAuth();
   useEffect(() => {
     dispatch(fetchPostsPage({ page: pageNum + 1, limit: itemsPerPage }));
@@ -30,28 +31,28 @@ const PageList = ({ postData, itemsPerPage }) => {
         </div>
         <div className='flex flex-col my-5 border-b-zinc-950 text-lg'>
           <ul className='flex py-4 mb-2 font-bold'>
-            <li className='basis-[100px] text-center'>no</li>
-            <li className='flex-1'>title</li>
-            <li className='basis-[50px] text-center'>조회수</li>
-            <li className='basis-[150px] text-center'>date</li>
+            <li className='flex-[1_1_100px] text-center'>no</li>
+            <li className='flex-[6_1_0]'>title</li>
+            <li className='flex-[1_1_50px] text-center'>조회수</li>
+            <li className='flex-[2_1_150px] text-center'>date</li>
           </ul>
           {posts?.length > 0 ? (
             posts.map((data, i) => {
               return (
                 <div className='flex border-b-2 items-center' key={data.id}>
-                  <div className='basis-[100px] text-center '>
-                    {totalCnt - pageNum * 10 - i}
+                  <div className='flex-[1] basis-[100px] text-center '>
+                    {/* {totalCnt - pageNum * 10 - i} */}0
                   </div>
                   <Link
                     to={`/board/${data.id}`}
-                    className='w-full h-[50px] flex items-center'
+                    className='w-full h-[50px] flex flex-[6] items-center'
                   >
-                    <div className='grow'>{data.title}</div>
+                    <div className='flex'>{data.title}</div>
                   </Link>
-                  <div className='ml-auto basis-[50px] text-center'>
+                  <div className='flex-[1] ml-auto basis-[50px] text-center'>
                     {data?.views}
                   </div>
-                  <div className='ml-auto basis-[150px] text-center'>
+                  <div className='flex-[2] ml-auto basis-[150px] text-center'>
                     {data?.createdAt?.substring(2, 10)}
                   </div>
                 </div>
