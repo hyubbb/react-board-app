@@ -31,7 +31,8 @@ const TextEditor = ({ value, handleBody }) => {
     input.setAttribute("accept", "image/*");
     input.click();
 
-    input.onchange = async () => {
+    input.onchange = async (e) => {
+      e.preventDefault();
       const file = input && input.files ? input.files[0] : null;
       const imageUrl = await imageToServer.create(file);
       console.log(imageUrl);
