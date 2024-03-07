@@ -32,8 +32,6 @@ const App = () => {
           <Route path='/edit/:id' element={<PageEdit />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
-
-          {/* <Route path='login' element={<LoginPage />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

@@ -2,6 +2,9 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const LOCALHOST = process.env.REACT_APP_LOCALHOST;
+
+// const LOCALHOST = "http://18.222.252.150/";
+
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
@@ -9,7 +12,6 @@ export const fetchPostsPage = createAsyncThunk(
       const response = await axios.get(
         `http://${LOCALHOST}:3002/posts/fetch/${page}/${limit}`
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       throw error;
@@ -73,15 +75,11 @@ export const imageToServer = {
   create: async (file) => {
     const formData = new FormData();
     formData.append("image", file);
+
     try {
       const response = await axios.post(
-        `http://${LOCALHOST}:3100/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        `http://${LOCALHOST}:3002/upload`,
+        formData
       );
       const { data } = response;
       return data.imageUrl;
@@ -89,9 +87,9 @@ export const imageToServer = {
       console.error("Error uploading image:", error);
     }
   },
-  delete: async (imageUrl: string) => {
+  delete: async (imageUrl) => {
     try {
-      axios.post(`http://${LOCALHOST}:3100/deleteImage`, {
+      axios.post(`http://${LOCALHOST}:3002/deleteImage`, {
         imageUrl,
       });
     } catch (error) {
