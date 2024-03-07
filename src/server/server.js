@@ -256,7 +256,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("image"), (req, res) => {
-  console.log(__dirname);
   const imageUrl = `/uploads/${req.file.filename}`;
   // DB에 이미지 URL 저장
   const query = "INSERT INTO images (imageUrl) VALUES (?)";

@@ -10,7 +10,6 @@ export const fetchComment = createAsyncThunk(
       const response = await axios.get(
         `http://${LOCALHOST}:3002/comments/fetch/${postId}`
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;
@@ -26,7 +25,6 @@ export const addComment = createAsyncThunk(
         `http://${LOCALHOST}:3002/comments/create`,
         postData
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;
