@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 3002;
 const LOCALHOST = process.env.REACT_APP_LOCALHOST;
 // JSON 요청 본문을 파싱하기 위한 미들웨어
 app.use(express.json({ limit: "5mb" }));
-app.use(express.static("/"));
 app.use(compression());
 app.use(cors({ origin: `http://${LOCALHOST}:3000` }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "5mb" }));
@@ -240,12 +239,12 @@ app.delete("/comments/delete/:commentId", (req, res) => {
  */
 
 //
-app.use("/upload", express.static(path.join(__dirname, "upload")));
+app.use("/upload", express.static(path.join(__dirname, "uploads")));
 // console.log(__dirname);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/upload/");
+    cb(null, "./public/uploads/");
   },
   filename: function (req, file, cb) {
     // 원래 파일의 확장자를 가져와서 저장
@@ -258,7 +257,7 @@ const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("image"), (req, res) => {
   console.log(__dirname);
-  const imageUrl = `/upload/${req.file.filename}`;
+  const imageUrl = `/uploads/${req.file.filename}`;
   // DB에 이미지 URL 저장
   const query = "INSERT INTO images (imageUrl) VALUES (?)";
   connection.query(query, [imageUrl], (error, results) => {

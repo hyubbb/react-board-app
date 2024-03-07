@@ -3,8 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const LOCALHOST = process.env.REACT_APP_LOCALHOST;
 
-// const LOCALHOST = "http://18.222.252.150/";
-
 export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
