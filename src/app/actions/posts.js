@@ -73,12 +73,18 @@ export const imageToServer = {
   create: async (file) => {
     const formData = new FormData();
     formData.append("image", file);
-
+console.log(formData.file);
     try {
       const response = await axios.post(
         `http://${LOCALHOST}:3002/upload`,
-        formData
+        formData,
+  	 {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+
       const { data } = response;
       return data.imageUrl;
     } catch (error) {

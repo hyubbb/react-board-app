@@ -14,7 +14,7 @@ const LOCALHOST = process.env.REACT_APP_LOCALHOST;
 app.use(express.json({ limit: "5mb" }));
 app.use(compression());
 app.use(cors({ origin: `http://${LOCALHOST}:3000` }));
-app.use(bodyParser.urlencoded({ extended: false, limit: "5mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "5mb" }));
 
 /**
  *
@@ -239,7 +239,7 @@ app.delete("/comments/delete/:commentId", (req, res) => {
  */
 
 //
-app.use("/upload", express.static(path.join(__dirname, "uploads")));
+//app.use("/upload", express.static(path.join(__dirname, "uploads")));
 // console.log(__dirname);
 
 const storage = multer.diskStorage({
@@ -256,9 +256,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("image"), (req, res) => {
+	console.log("upload");
   const imageUrl = `/uploads/${req.file.filename}`;
   // DB에 이미지 URL 저장
-  const query = "INSERT INTO images (imageUrl) VALUES (?)";
+  console.log(req.file);
+	const query = "INSERT INTO images (imageUrl) VALUES (?)";
   connection.query(query, [imageUrl], (error, results) => {
     if (error) {
       console.error(error);

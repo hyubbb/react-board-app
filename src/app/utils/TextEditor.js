@@ -36,14 +36,14 @@ const TextEditor = ({ value, handleBody }) => {
       const file = input && input.files ? input.files[0] : null;
       const imageUrl = await imageToServer.create(file);
       console.log(imageUrl);
-      const q = quillRef.current;
-      const editor = q.getEditor();
-      const range = editor.getSelection();
+//      const q = quillRef.current;
+//      const editor = q.getEditor();
+//      const range = editor.getSelection();
 
-      if (editor && range) {
-        editor.insertEmbed(range.index, "image", imageUrl);
-        setUploadedImages((prevImages) => [...prevImages, imageUrl]);
-      }
+//      if (editor && range) {
+//        editor.insertEmbed(range.index, "image", imageUrl);
+//        setUploadedImages((prevImages) => [...prevImages, imageUrl]);
+//      }
     };
   };
 
