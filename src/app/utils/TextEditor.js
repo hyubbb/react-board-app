@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-// import { Container } from "./TextEditor.styles";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill, { Quill } from "react-quill";
-// import { split } from "postcss/lib/list";
 import { imageToServer } from "../actions/posts";
 import ImageResize from "quill-image-resize";
 Quill.register("modules/ImageResize", ImageResize);
@@ -35,7 +33,7 @@ const TextEditor = ({ value, handleBody }) => {
       e.preventDefault();
       const file = input && input.files ? input.files[0] : null;
       const imageUrl = await imageToServer.create(file);
-      console.log(imageUrl);
+      // console.log(imageUrl);
       const q = quillRef.current;
       const editor = q.getEditor();
       const range = editor.getSelection();

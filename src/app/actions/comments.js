@@ -1,14 +1,14 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const LOCALHOST = process.env.REACT_APP_LOCALHOST;
+const LOCALHOST = process.env.REACT_APP_HOST;
 
 export const fetchComment = createAsyncThunk(
   "comments/fetchComment",
   async (postId) => {
     try {
       const response = await axios.get(
-        `http://${LOCALHOST}:3002/comments/fetch/${postId}`
+        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/comments/fetch/${postId}`
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ export const addComment = createAsyncThunk(
   async (postData) => {
     try {
       const response = await axios.post(
-        `http://${LOCALHOST}:3002/comments/create`,
+        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/comments/create`,
         postData
       );
       return response.data;
@@ -38,7 +38,7 @@ export const updateComment = createAsyncThunk(
     try {
       const { editingId: commentId, editingText: commentText } = commentData;
       const response = await axios.patch(
-        `http://${LOCALHOST}:3002/comments/update/${commentId}`,
+        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/comments/update/${commentId}`,
         {
           commentText,
         }
@@ -55,7 +55,7 @@ export const deleteComment = createAsyncThunk(
   async (commentId) => {
     try {
       await axios.delete(
-        `http://${LOCALHOST}:3002/comments/delete/${commentId}`
+        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/comments/delete/${commentId}`
       );
 
       return commentId;

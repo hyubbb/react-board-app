@@ -16,7 +16,7 @@ const Layout = () => {
       <Navbar />
       <Pagetracking />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

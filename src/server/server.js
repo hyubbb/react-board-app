@@ -1,30 +1,41 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: ".env.development" });
+} else {
+  require("dotenv").config({ path: ".env.production" });
+}
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const compression = require("compression");
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const connection = require("./mysql");
-const app = express();
 const path = require("path");
 const fs = require("fs");
-const PORT = process.env.PORT || 3002;
-const LOCALHOST = process.env.REACT_APP_LOCALHOST;
-// JSON 요청 본문을 파싱하기 위한 미들웨어
+const PORT = process.env.REACT_APP_PORT || 3002;
+const LOCALHOST = process.env.REACT_APP_HOST;
 app.use(express.json({ limit: "5mb" }));
 app.use(compression());
-app.use(cors({ origin: `http://${LOCALHOST}:3000` }));
-app.use(bodyParser.urlencoded({ extended: false, limit: "5mb" }));
+
+const allowedOrigins = [
+  `http://${LOCALHOST}:${process.env.REACT_APP_LOCALPORT}`,
+];
+app.use(cors({ origin: allowedOrigins }));
+app.use(express.static(path.join(__dirname, "..", "..", "build")));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "..", "..", "public", "uploads"))
+);
+app.use(bodyParser.urlencoded({ extended: true, limit: "5mb" }));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 /**
  *
  * post api
  *
  */
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 app.get("/posts/fetch/:page/:limit", (req, res) => {
   const limit = parseInt(req.params.limit, 10) || 10; // 기본값을 10으로 설정
@@ -75,7 +86,6 @@ app.get("/posts/:postId/views", (req, res) => {
         console.error("Error fetching updated post from database:", error);
         return res.status(500).send("Error fetching updated post");
       }
-      // console.log(results);
       if (results.length > 0) {
         res.json(results[0]);
       } else {
@@ -87,7 +97,6 @@ app.get("/posts/:postId/views", (req, res) => {
 
 app.post("/post/create", (req, res) => {
   let { title, body, userId } = req.body; // 요청 본문에서 type 추출
-  console.log("craets");
   const query =
     "INSERT INTO board.posts (title, body, createdAt, userId) VALUES (?,?,NOW(),?)";
 
@@ -107,7 +116,6 @@ app.post("/post/create", (req, res) => {
 });
 
 app.patch("/posts/:postId", (req, res) => {
-  console.log("pos");
   const postId = req.params.postId; // URL 파라미터에서 postId 추출
 
   const { title, body } = req.body; // 요청 본문에서 새로운 title과 body 추출
@@ -239,8 +247,6 @@ app.delete("/comments/delete/:commentId", (req, res) => {
  */
 
 //
-app.use("/upload", express.static(path.join(__dirname, "uploads")));
-// console.log(__dirname);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

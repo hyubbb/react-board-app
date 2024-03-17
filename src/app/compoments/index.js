@@ -6,7 +6,7 @@ import { selectPosts } from "../modules/boardSlice.js";
 
 const Container = () => {
   const postData = useSelector(selectPosts);
-  const { totalCount: totalCnt, pageNum } = postData;
+  const { totalCount, pageNum } = postData;
   const itemsPerPage = 10;
 
   return (
@@ -18,7 +18,7 @@ const Container = () => {
       />
       <Pagination
         itemsPerPage={itemsPerPage}
-        totalCount={totalCnt}
+        totalCount={totalCount}
         pageNum={pageNum}
       />
     </>
