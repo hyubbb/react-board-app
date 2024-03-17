@@ -16,9 +16,9 @@ const PORT = process.env.REACT_APP_PORT || 3002;
 const LOCALHOST = process.env.REACT_APP_HOST;
 app.use(express.json({ limit: "5mb" }));
 app.use(compression());
-
+ 
 const allowedOrigins = [
-  `http://${LOCALHOST}:${process.env.REACT_APP_LOCALPORT}`,
+  `http://${LOCALHOST}:${process.env.RE1ACT_APP_LOCALPORT}`,
 ];
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "5mb" }));
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
+ 
 /**
  *
  * post api
@@ -247,6 +247,11 @@ app.delete("/comments/delete/:commentId", (req, res) => {
  */
 
 //
+<<<<<<< HEAD
+=======
+//app.use("/upload", express.static(path.join(__dirname, "uploads")));
+// console.log(__dirname);
+>>>>>>> 0a4d76d7805690b8e438c83bf3cc5df6356a15f9
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -262,9 +267,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("image"), (req, res) => {
+	console.log("upload");
   const imageUrl = `/uploads/${req.file.filename}`;
   // DB에 이미지 URL 저장
-  const query = "INSERT INTO images (imageUrl) VALUES (?)";
+  console.log(req.file);
+	const query = "INSERT INTO images (imageUrl) VALUES (?)";
   connection.query(query, [imageUrl], (error, results) => {
     if (error) {
       console.error(error);

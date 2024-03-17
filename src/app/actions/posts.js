@@ -33,7 +33,6 @@ export const fetchPostView = createAsyncThunk(
 
 export const addPost = createAsyncThunk("post/addPost", async (post) => {
   try {
-    // 서버로 게시글 추가 요청을 보내고 새로운 게시글 데이터를 반환하는 로직
     const response = await axios.post(
       `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/post/create`,
       post
@@ -88,6 +87,7 @@ export const imageToServer = {
           },
         }
       );
+
       const { data } = response;
       return data.imageUrl;
     } catch (error) {

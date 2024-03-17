@@ -33,7 +33,7 @@ const TextEditor = ({ value, handleBody }) => {
       e.preventDefault();
       const file = input && input.files ? input.files[0] : null;
       const imageUrl = await imageToServer.create(file);
-      // console.log(imageUrl);
+
       const q = quillRef.current;
       const editor = q.getEditor();
       const range = editor.getSelection();
@@ -83,7 +83,6 @@ const TextEditor = ({ value, handleBody }) => {
 
   return (
     <>
-      {/* <Container> */}
       <div className='h-[300px]'>
         <ReactQuill
           ref={quillRef}
@@ -96,7 +95,6 @@ const TextEditor = ({ value, handleBody }) => {
           modules={modules}
         />
       </div>
-      {/* </Container> */}
     </>
   );
 };
