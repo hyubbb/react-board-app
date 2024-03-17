@@ -4,33 +4,37 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({ path: ".env.production" });
 }
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const compression = require("compression");
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const connection = require("./mysql");
+const app = express();
 const path = require("path");
 const fs = require("fs");
 const PORT = process.env.REACT_APP_PORT || 3002;
 const LOCALHOST = process.env.REACT_APP_HOST;
-app.use(express.json({ limit: "5mb" }));
+app.use(express.json({ limit: "1mb" }));
 app.use(compression());
- 
+
 const allowedOrigins = [
-  `http://${LOCALHOST}:${process.env.RE1ACT_APP_LOCALPORT}`,
+  `http://${LOCALHOST}:${process.env.REACT_APP_LOCALPORT}`,
 ];
 app.use(cors({ origin: allowedOrigins }));
+
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
+
 app.use(
   "/uploads",
   express.static(path.join(__dirname, "..", "..", "public", "uploads"))
 );
-app.use(bodyParser.urlencoded({ extended: true, limit: "5mb" }));
+
+app.use(bodyParser.urlencoded({ extended: true, limit: "1mb" }));
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
- 
+
 /**
  *
  * post api
@@ -86,6 +90,7 @@ app.get("/posts/:postId/views", (req, res) => {
         console.error("Error fetching updated post from database:", error);
         return res.status(500).send("Error fetching updated post");
       }
+      // console.log(results);
       if (results.length > 0) {
         res.json(results[0]);
       } else {
@@ -202,7 +207,6 @@ app.post("/comments/create", (req, res) => {
       return res.status(500).send("Error writing to database");
     }
     const newCommentId = results.insertId;
-    console.log(req.body);
     res.status(200).json({ id: newCommentId, text, createdAt });
   });
 });
@@ -247,11 +251,8 @@ app.delete("/comments/delete/:commentId", (req, res) => {
  */
 
 //
-<<<<<<< HEAD
-=======
-//app.use("/upload", express.static(path.join(__dirname, "uploads")));
+// app.use("/upload", express.static(path.join(__dirname, "uploads")));
 // console.log(__dirname);
->>>>>>> 0a4d76d7805690b8e438c83bf3cc5df6356a15f9
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -267,11 +268,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("image"), (req, res) => {
-	console.log("upload");
   const imageUrl = `/uploads/${req.file.filename}`;
   // DB에 이미지 URL 저장
-  console.log(req.file);
-	const query = "INSERT INTO images (imageUrl) VALUES (?)";
+  const query = "INSERT INTO images (imageUrl) VALUES (?)";
   connection.query(query, [imageUrl], (error, results) => {
     if (error) {
       console.error(error);
@@ -283,8 +282,15 @@ app.post("/upload", upload.single("image"), (req, res) => {
 
 app.post("/deleteImage", (req, res) => {
   const { imageUrl } = req.body;
-  // const imagePath = path.join(__dirname, "upload", path.basename(imageUrl));
-  fs.unlink(`.${imageUrl}`, (err) => {
+  const imagePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "public/uploads",
+    path.basename(imageUrl)
+  );
+
+  fs.unlink(imagePath, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send("Error deleting image");

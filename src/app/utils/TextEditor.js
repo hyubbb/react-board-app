@@ -9,17 +9,17 @@ const TextEditor = ({ value, handleBody }) => {
   const quillRef = useRef(null); // Quill 인스턴스를 참조하기 위한 ref
   const [uploadedImages, setUploadedImages] = useState([]); // 업로드된 이미지 URL을 저장하기 위한 상태
 
-  useEffect(() => {
-    const handleBeforeUnload = async () => {
-      // 업로드된 이미지 목록을 서버에서 삭제
-      uploadedImages.forEach((imageUrl) => {
-        imageToServer.delete(imageUrl);
-      });
-    };
+  const handleUnload = async () => {
+    // 업로드된 이미지 목록을 서버에서 삭제
+    uploadedImages.forEach((imageUrl) => {
+      imageToServer.delete(imageUrl);
+    });
+  };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleUnload);
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleUnload);
     };
   }, [uploadedImages]);
 
