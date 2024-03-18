@@ -27,10 +27,6 @@ const allowedOrigins = [
 ];
 app.use(cors({ origin: allowedOrigins }));
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 /**
  *
  * post api
@@ -297,4 +293,8 @@ app.post("/deleteImage", (req, res) => {
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
