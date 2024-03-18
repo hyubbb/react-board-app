@@ -20,7 +20,6 @@ const userSlice = createSlice({
       state.id = "";
       state.photo = "";
       state.name = "";
-
       localStorage.removeItem("user");
     },
   },

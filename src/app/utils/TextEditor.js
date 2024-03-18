@@ -9,14 +9,13 @@ const TextEditor = ({ value, handleBody }) => {
   const quillRef = useRef(null); // Quill 인스턴스를 참조하기 위한 ref
   const [uploadedImages, setUploadedImages] = useState([]); // 업로드된 이미지 URL을 저장하기 위한 상태
 
-  const handleUnload = async () => {
-    // 업로드된 이미지 목록을 서버에서 삭제
-    uploadedImages.forEach((imageUrl) => {
-      imageToServer.delete(imageUrl);
-    });
-  };
-
   useEffect(() => {
+    const handleUnload = async () => {
+      // 업로드된 이미지 목록을 서버에서 삭제
+      uploadedImages.forEach((imageUrl) => {
+        imageToServer.delete(imageUrl);
+      });
+    };
     window.addEventListener("beforeunload", handleUnload);
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
@@ -32,8 +31,14 @@ const TextEditor = ({ value, handleBody }) => {
     input.onchange = async (e) => {
       e.preventDefault();
       const file = input && input.files ? input.files[0] : null;
+      const maxFileSize = 2 * 1024 * 1024;
+      console.log(file.size, maxFileSize);
+      if (file.size > maxFileSize) {
+        alert("파일 크기가 너무 큽니다. 2MB 이하의 파일을 업로드해주세요.");
+        return;
+      }
+      console.log("asdasdasdasd");
       const imageUrl = await imageToServer.create(file);
-
       const q = quillRef.current;
       const editor = q.getEditor();
       const range = editor.getSelection();

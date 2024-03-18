@@ -1,19 +1,26 @@
 import React, { memo, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPostsPage } from "../../actions/posts.js";
-import { commentRemove, postViewRemove } from "../../modules/boardSlice.js";
+import {
+  commentRemove,
+  postViewRemove,
+  selectPosts,
+} from "../../modules/boardSlice.js";
 import { useAuth } from "../../hooks/useAuth.js";
 
-const PageList = memo(({ postData, itemsPerPage, pageNum = 0 }) => {
-  const { data: posts, totalCount: totalCnt } = postData;
+const PageList = memo(() => {
+  const postData = useSelector(selectPosts);
+  const { data: posts, totalCount: totalCnt, pageNum } = postData;
+  const itemsPerPage = 10;
   const dispatch = useDispatch(); // getState
   const { isAuth } = useAuth();
   useEffect(() => {
+    console.log("first");
     dispatch(fetchPostsPage({ page: 1, limit: itemsPerPage }));
     dispatch(postViewRemove());
     dispatch(commentRemove());
-  }, [dispatch, itemsPerPage]);
+  }, [dispatch]);
 
   return (
     <div className='flex items-center flex-col'>

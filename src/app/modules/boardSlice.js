@@ -15,7 +15,7 @@ import {
 } from "../actions/comments.js";
 
 const initialState = {
-  posts: { data: [], totalCount: 0, pageNum: 1 },
+  posts: { data: [], totalCount: 0, pageNum: 0 },
   postView: {},
   pageNum: 0,
   comments: [],
@@ -101,7 +101,7 @@ const boardSlice = createSlice({
   reducers: {
     setPageNum: (state, action) => {
       const num = action.payload ? action.payload : 0;
-      state.pageNum = num;
+      state.posts.pageNum = num;
     },
     postViewRemove: (state, _) => {
       state.postView = [];

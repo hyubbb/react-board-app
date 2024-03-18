@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../actions/posts.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BackButton from "../commons/BackButton.js";
-import DateFormat, { DateNow } from "../../hooks/date.js";
+import { DateNow } from "../../hooks/date.js";
 import { selectUser } from "../../modules/userSlice.js";
 import TextEditor from "../../utils/TextEditor.js";
 
 const PageCreate = () => {
+  console.log("first");
   const dispatch = useDispatch(); // getState
   const navigate = useNavigate();
   const users = useSelector(selectUser);
@@ -85,15 +86,6 @@ const PageCreate = () => {
                 내용
               </label>
               <div className='mt-2'>
-                {/* <textarea
-                  name='body'
-                  id='body'
-                  rows='3'
-                  value={inputs.body}
-                  onChange={handleChange}
-                  placeholder='text'
-                  className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600'
-                ></textarea> */}
                 <TextEditor value={inputs.body} handleBody={handleBody} />
                 <div id='preview'></div>
               </div>

@@ -7,29 +7,25 @@ const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
 const multer = require("multer");
-const bodyParser = require("body-parser");
 const connection = require("./mysql");
 const app = express();
 const path = require("path");
 const fs = require("fs");
-const PORT = process.env.REACT_APP_PORT || 3002;
+const PORT = process.env.REACT_APP_PORT || 3000;
 const LOCALHOST = process.env.REACT_APP_HOST;
 app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(compression());
-
-const allowedOrigins = [
-  `http://${LOCALHOST}:${process.env.REACT_APP_LOCALPORT}`,
-];
-app.use(cors({ origin: allowedOrigins }));
-
 app.use(express.static(path.join(__dirname, "..", "..", "build")));
-
 app.use(
   "/uploads",
   express.static(path.join(__dirname, "..", "..", "public", "uploads"))
 );
 
-app.use(bodyParser.urlencoded({ extended: true, limit: "1mb" }));
+const allowedOrigins = [
+  `http://${LOCALHOST}:${process.env.REACT_APP_LOCALPORT}`,
+];
+app.use(cors({ origin: allowedOrigins }));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -297,4 +293,8 @@ app.post("/deleteImage", (req, res) => {
     }
     res.status(200).send("Image delete successfully");
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"));
 });

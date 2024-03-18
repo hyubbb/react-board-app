@@ -20,7 +20,6 @@ const Layout = () => {
     </>
   );
 };
-
 const App = () => {
   return (
     <BrowserRouter>

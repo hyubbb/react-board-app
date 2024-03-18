@@ -14,7 +14,7 @@ const PageDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const viewPost = useSelector(selectedPost) || "";
-  const { isAuth, id } = useAuth();
+  const { isAuth, id, admin } = useAuth();
   useEffect(() => {
     dispatch(fetchPostView(postId));
   }, [dispatch, postId]);
@@ -54,18 +54,19 @@ const PageDetail = () => {
         <div className='flex justify-center mt-7'>
           <BackButton />
 
-          {isAuth && viewPost.userId === id && (
-            <>
-              <Link
-                to={`/edit/${postId}`}
-                state={{ post: viewPost, postKey: postId }}
-                className='border-2 border-solid border-black rounded w-24 mr-5 text-center'
-              >
-                edit
-              </Link>
-              <PageDelete postId={postId} />
-            </>
-          )}
+          {(isAuth && viewPost.userId === id) ||
+            (admin && (
+              <>
+                <Link
+                  to={`/edit/${postId}`}
+                  state={{ post: viewPost, postKey: postId }}
+                  className='border-2 border-solid border-black rounded w-24 mr-5 text-center'
+                >
+                  edit
+                </Link>
+                <PageDelete postId={postId} />
+              </>
+            ))}
         </div>
         <CommentList />
       </div>
