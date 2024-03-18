@@ -16,7 +16,6 @@ const PageList = memo(() => {
   const dispatch = useDispatch(); // getState
   const { isAuth } = useAuth();
   useEffect(() => {
-    console.log("first");
     dispatch(fetchPostsPage({ page: 1, limit: itemsPerPage }));
     dispatch(postViewRemove());
     dispatch(commentRemove());
