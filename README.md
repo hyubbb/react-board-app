@@ -8,6 +8,9 @@
 
 ---
 
+## 사용된 스택과 라이브러리
+react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-quill, react-persist
+
 
 ## 설명  
   
