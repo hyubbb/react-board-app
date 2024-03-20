@@ -1,4 +1,4 @@
-# React, redux-thunk, react-persist, tailwindcss
+게시판
 
 ---
 
