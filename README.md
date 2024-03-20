@@ -11,7 +11,8 @@
 <br>
 
 ## 사용된 스택과 라이브러리
-react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-quill, react-persist
+react, redux, tailwindcss, expressjs, firebase,  
+redux-thunk, react-pagination, react-quill, react-persist
 
 <br>
 
