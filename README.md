@@ -2,6 +2,11 @@
 
 ---
 
+![board](https://github.com/hyubbb/react-board-app/assets/32926006/01d9cd4c-bc9e-4503-a3a1-224ee6922045)
+
+
+---
+
 ## 설명
 
 - React-Redux를 이용하여 복잡한 비동기 데이터 처리를 마스터하고 사용자 경험을 향상시키기 위해 구현된 게시판입니다. 
