@@ -18,11 +18,11 @@ react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-qu
 - 직접 aws-ec2서버와의 데이터 교환 과정을 통해, 데이터의 흐름과 처리 방식에 대한 이해를 목표로 진행했습니다. 
   이를 통해, 실제 서버 기반 애플리케이션의 백엔드와 프론트엔드 간의 상호작용을 경험했습니다.
 - 코드의 유지보수성과 가독성을 높이기 위해, 컴포넌트 구조를 적용하여 체계적으로 관리하고자 하였습니다.
-- 기본적인 CRUD 기능(게시글 작성, 수정, 삭제 및 댓글 작성, 수정, 삭제)을 포함하였습니다.
+- 기본적인 CRUD 기능(게시글 작성, 수정, 삭제 및 댓글 작성, 수정, 삭제)을 포함하였습니다.  
 
 
 ## 기능  
-  
+   
 - 비동기 데이터 처리를 위해서 `React-Redux`를 사용하여 데이터 상태 관리
  - 다른선택지들도 있었지만, 기본적인 비동기의 흐름에 익숙해지기 위해서 Redux를 선택하였습니다. 
 - `React-Persist` 를 활용하여 웹 브라우저의 localStorage에 데이터를 저장하고 관리하여 세션간의 상태유지를 가능하게 했습니다.
@@ -33,4 +33,4 @@ react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-qu
     - 서버는 aws-ec2를 이용, 데이터베이스는 rds-mysql을 사용하였습니다.
 - `Axios`를 이용하여 CRUD 기능 구현
 - `Firebase`를 이용힌 손쉬운 구글 계정 로그인 기능 구현 및 회원가입 기능으로 사용자의 접근성 향상
-- `React-pagination` 을 이용하여 페이지네이션 적용
+- `React-pagination` 을 이용하여 페이지네이션 적용  
