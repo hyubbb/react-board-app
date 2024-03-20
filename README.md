@@ -7,11 +7,13 @@
 
 
 ---
+<br>
 
 ## 사용된 스택과 라이브러리
 react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-quill, react-persist
 
 <br>
+
 ## 설명  
   
 - React-Redux를 이용하여 복잡한 비동기 데이터 처리를 마스터하고 사용자 경험을 향상시키기 위해 구현된 게시판입니다. 
@@ -21,6 +23,7 @@ react, redux-thunk, tailwindcss, expressjs, firebase, react-pagination, react-qu
 - 기본적인 CRUD 기능(게시글 작성, 수정, 삭제 및 댓글 작성, 수정, 삭제)을 포함하였습니다.  
 
 <br>
+
 ## 기능  
    
 - 비동기 데이터 처리를 위해서 `React-Redux`를 사용하여 데이터 상태 관리
