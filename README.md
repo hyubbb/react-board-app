@@ -1,12 +1,13 @@
 # 게시판
 
 
----
+ 
 
 ![board](https://github.com/hyubbb/react-board-app/assets/32926006/01d9cd4c-bc9e-4503-a3a1-224ee6922045)
 
 
 ---
+
 <br>
 
 ## 사용된 스택과 라이브러리
