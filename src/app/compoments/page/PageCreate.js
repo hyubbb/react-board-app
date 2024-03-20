@@ -8,7 +8,6 @@ import { selectUser } from "../../modules/userSlice.js";
 import TextEditor from "../../utils/TextEditor.js";
 
 const PageCreate = () => {
-  console.log("first");
   const dispatch = useDispatch(); // getState
   const navigate = useNavigate();
   const users = useSelector(selectUser);
@@ -50,7 +49,7 @@ const PageCreate = () => {
   };
   return (
     <div className='flex justify-center'>
-      <div className=' max-w-[800px]  w-full mt-8'>
+      <div className=' max-w-[800px]  w-full mt-8 px-4'>
         <div className='my-5 font-bold text-2xl mb-12'>
           <h1>글 작성</h1>
         </div>

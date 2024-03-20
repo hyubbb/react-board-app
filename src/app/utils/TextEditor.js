@@ -27,9 +27,9 @@ const TextEditor = ({ value, handleBody }) => {
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
-
-    input.onchange = async (e) => {
+    input.onclick = async (e) => {
       e.preventDefault();
+      console.log("e");
       const file = input && input.files ? input.files[0] : null;
       const maxFileSize = 2 * 1024 * 1024;
       console.log(file.size, maxFileSize);
@@ -37,10 +37,8 @@ const TextEditor = ({ value, handleBody }) => {
         alert("파일 크기가 너무 큽니다. 2MB 이하의 파일을 업로드해주세요.");
         return;
       }
-      console.log("asdasdasdasd");
       const imageUrl = await imageToServer.create(file);
-      const q = quillRef.current;
-      const editor = q.getEditor();
+      const editor = quillRef.current.getEditor();
       const range = editor.getSelection();
 
       if (editor && range) {
@@ -95,7 +93,7 @@ const TextEditor = ({ value, handleBody }) => {
           theme='snow'
           value={value}
           onChange={handleBody}
-          placeholder='Write notes...'
+          placeholder='글의 내용을 작성 해주세요'
           formats={formats}
           modules={modules}
         />

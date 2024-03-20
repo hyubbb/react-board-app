@@ -54,7 +54,6 @@ const PageDetail = () => {
         <div className='flex justify-center mt-7'>
           <BackButton />
 
-          {console.log((isAuth && viewPost.userId === id) || admin)}
           {((isAuth && viewPost.userId === id) || admin) && (
             <>
               <Link

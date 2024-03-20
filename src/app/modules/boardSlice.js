@@ -15,7 +15,9 @@ import {
 } from "../actions/comments.js";
 
 const initialState = {
-  posts: { data: [], totalCount: 0, pageNum: 0 },
+  posts: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : { data: [], totalCount: 0, pageNum: 0 },
   postView: {},
   pageNum: 0,
   comments: [],
