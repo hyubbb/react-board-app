@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import "react-quill/dist/quill.snow.css";
 import ReactQuill, { Quill } from "react-quill";
 import { imageToServer } from "../actions/posts";
 import ImageResize from "quill-image-resize";
+import "react-quill/dist/quill.snow.css";
 Quill.register("modules/ImageResize", ImageResize);
 
 const TextEditor = ({ value, handleBody }) => {

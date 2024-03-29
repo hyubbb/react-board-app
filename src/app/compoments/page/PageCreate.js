@@ -59,13 +59,13 @@ const PageCreate = () => {
             className={"mt-10 flex flex-col justify-center"}
           >
             <div className='col-span-full pb-8'>
-              <label
-                htmlFor='title'
-                className='block text-lg leading-6 text-gray-900 font-bold pb-2'
-              >
-                제목
-              </label>
               <div className='mt-2'>
+                <label
+                  htmlFor='title'
+                  className='block text-lg leading-6 text-gray-900 font-bold pb-2'
+                >
+                  제목
+                </label>
                 <input
                   type='text'
                   name='title'
@@ -78,14 +78,19 @@ const PageCreate = () => {
               </div>
             </div>
             <div className='col-span-full'>
-              <label
-                htmlFor='body'
-                className='block text-lg leading-6 text-gray-900 font-bold pb-2'
-              >
-                내용
-              </label>
               <div className='mt-2'>
-                <TextEditor value={inputs.body} handleBody={handleBody} />
+                <label
+                  htmlFor='body'
+                  className='block text-lg leading-6 text-gray-900 font-bold pb-2'
+                >
+                  내용
+                </label>
+                <TextEditor
+                  value={inputs.body}
+                  handleBody={handleBody}
+                  id='body'
+                  name='body'
+                />
                 <div id='preview'></div>
               </div>
             </div>

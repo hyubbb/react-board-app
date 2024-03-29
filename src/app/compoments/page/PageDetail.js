@@ -8,6 +8,7 @@ import CommentList from "../comment/CommentList.js";
 import { fetchPostView } from "../../actions/posts.js";
 import { useAuth } from "../../hooks/useAuth.js";
 import Loading from "../../utils/Loading.js";
+import "react-quill/dist/quill.snow.css";
 
 const PageDetail = () => {
   const postId = +useParams().id;
@@ -37,20 +38,18 @@ const PageDetail = () => {
 
   return (
     <div className='flex justify-center items-center flex-col mt-16'>
-      <div className=' max-w-[1200px] w-full px-10 mb-24'>
+      <div className='max-w-[1200px] w-full px-10 mb-24'>
         <div className='text-lg mb-10 font-black border-b-2 flex pb-6'>
           {viewPost.title}
           <div className='ml-auto'>{viewPost?.views}</div>
         </div>
-
         {viewPost?.email}
-        <div className='text-md mb-4 font-black text-right'></div>
-
-        <div
-          className='flex-0 border-b-2 pb-20'
-          dangerouslySetInnerHTML={{ __html: viewPost.body }}
-        ></div>
-
+        <div className='ql-snow'>
+          <div
+            className='flex-0 border-b-2 pb-20 ql-editor'
+            dangerouslySetInnerHTML={{ __html: viewPost.body }}
+          ></div>
+        </div>
         <div className='flex justify-center mt-7'>
           <BackButton />
 
@@ -73,4 +72,4 @@ const PageDetail = () => {
   );
 };
 
-export default React.memo(PageDetail);
+export default PageDetail;
