@@ -29,7 +29,6 @@ const TextEditor = ({ value, handleBody }) => {
     input.click();
     input.onclick = async (e) => {
       e.preventDefault();
-      console.log("e");
       const file = input && input.files ? input.files[0] : null;
       const maxFileSize = 2 * 1024 * 1024;
       console.log(file.size, maxFileSize);
@@ -71,7 +70,7 @@ const TextEditor = ({ value, handleBody }) => {
           [],
           [{ color: [] }, { background: [] }],
           [],
-          ["image", "blockquote", "code-block"],
+          ["blockquote", "code-block"],
         ],
         handlers: {
           image: imageHandler,

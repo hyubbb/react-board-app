@@ -7,9 +7,7 @@ export const fetchPostsPage = createAsyncThunk(
   "posts/fetchPostsPage",
   async ({ page, limit }) => {
     try {
-      const response = await axios.get(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/posts/fetch/${page}/${limit}`
-      );
+      const response = await axios.get(`/posts/fetch/${page}/${limit}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -21,9 +19,7 @@ export const fetchPostView = createAsyncThunk(
   "posts/fetchPostView",
   async (postId) => {
     try {
-      const response = await axios.get(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/posts/${postId}/views`
-      );
+      const response = await axios.get(`/posts/${postId}/views`);
       return response.data;
     } catch (error) {
       throw error;
@@ -31,12 +27,11 @@ export const fetchPostView = createAsyncThunk(
   }
 );
 
-export const addPost = createAsyncThunk("post/addPost", async (post) => {
+export const addPost = createAsyncThunk("posts/addPost", async (post) => {
   try {
-    const response = await axios.post(
-      `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/post/create`,
-      post
-    );
+    console.log(post);
+    const response = await axios.post(`/posts/create`, post);
+    console.log("response : ", response);
     return response.data;
   } catch (error) {
     throw error;
@@ -47,9 +42,7 @@ export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (postId) => {
     try {
-      await axios.delete(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/post/delete/${postId}`
-      );
+      await axios.delete(`/posts/delete/${postId}`);
       return postId;
     } catch (error) {
       throw error;
@@ -62,10 +55,7 @@ export const updatePost = createAsyncThunk(
   async (postData) => {
     try {
       const { id } = postData;
-      await axios.patch(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/posts/${id}`,
-        postData
-      );
+      await axios.patch(`/posts/${id}`, postData);
       return postData;
     } catch (error) {
       throw error;
@@ -78,15 +68,11 @@ export const imageToServer = {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const response = await axios.post(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       const { data } = response;
       return data.imageUrl;
@@ -96,12 +82,9 @@ export const imageToServer = {
   },
   delete: async (imageUrl) => {
     try {
-      axios.post(
-        `http://${LOCALHOST}:${process.env.REACT_APP_PORT}/deleteImage`,
-        {
-          imageUrl,
-        }
-      );
+      axios.post(`/deleteImage`, {
+        imageUrl,
+      });
     } catch (error) {
       console.error("Error uploading image:", error);
     }

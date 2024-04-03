@@ -9,9 +9,9 @@ const CommentItem = ({ onDelete, comment, startEdit }) => {
     <>
       <div
         className='flex border-b-2 h-[50px] p-3 mt-[20px] items-center group'
-        key={comment.id}
+        key={comment?.id}
       >
-        <div className='flex-1'>{comment.text}</div>
+        <div className='flex-1'>{comment?.text}</div>
         {comment.userId === users.id || admin ? (
           <div className='flex basis-[200px] justify-end mr-3'>
             <div
@@ -30,7 +30,7 @@ const CommentItem = ({ onDelete, comment, startEdit }) => {
         ) : (
           ""
         )}
-        <div>{comment.createdAt.slice(0, 10)}</div>
+        <div>{comment?.createdAt?.slice(0, 10)}</div>
       </div>
     </>
   );
