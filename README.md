@@ -1,5 +1,6 @@
 # 게시판 - aws서버 복구중
 
+https://port-0-react-board-app-754g42alujvb2sj.sel5.cloudtype.app/
 
  
 
